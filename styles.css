@@ -45,11 +45,10 @@ body {
     align-items: center;
 }
 
-.logo {
-    font-size: 24px;
-    font-weight: 800;
-    color: white;
-    letter-spacing: -0.5px;
+.logo-image {
+    height: 35px;
+    width: auto;
+    display: block;
 }
 
 .nav {
