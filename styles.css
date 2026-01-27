@@ -85,8 +85,8 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(rgba(252, 247, 241, 0.85), rgba(252, 247, 241, 0.85)), 
-                url('HEROIMAGE.png') center/cover no-repeat;
+    background: linear-gradient(rgba(252, 247, 241, 0.75), rgba(252, 247, 241, 0.75)), 
+                url('HEROIMAGE.JPG') center/cover no-repeat;
     padding: 60px 0 0 0;
     text-align: center;
 }
