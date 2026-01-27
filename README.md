@@ -38,8 +38,8 @@ Sitio web para alquiler de espacios de juego Montessori para bebés y eventos in
 Edita las variables CSS en `styles.css`:
 ```css
 :root {
-    --primary-color: #FF7B54;  /* Color principal */
-    --secondary-color: #FFA07A; /* Color secundario */
+    --primary-color: #d46037;  /* Color principal */
+    --secondary-color: #066046; /* Color secundario */
 }
 ```
 
