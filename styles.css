@@ -86,6 +86,8 @@ body {
 /* Hero Section */
 .hero {
     background: url('HEROIMAGE.jpg') center/cover no-repeat;
+    padding: 120px 0 60px 0;
+    text-align: left;
 }
 
 .hero .container {
