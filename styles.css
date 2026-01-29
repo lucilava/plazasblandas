@@ -90,11 +90,13 @@ body {
 
 .hero .container {
     display: block;
-    max-width: 800px;
+    max-width: 1200px;
+    padding-left: 20px;
 }
 
 .hero-content {
-    padding: 0 20px;
+    padding: 0;
+    padding-left: 20px;
     text-align: left;
     max-width: 600px;
     margin-left: 0;
