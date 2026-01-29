@@ -139,7 +139,7 @@ body {
     display: flex;
     gap: 15px;
     margin-bottom: 20px;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
@@ -162,10 +162,9 @@ body {
     color: white;
 }
 
-.btn-primary:hover {
-    background: #FF6B44;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+.btn-primary {
+    background: #fba833 !important;
+    color: white !important;
 }
 
 .btn-secondary {
