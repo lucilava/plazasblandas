@@ -70,8 +70,8 @@ body {
 }
 
 .btn-reservar {
-    background: #fba833;
-    color: white;
+    background: #fba833 !important;
+    color: white !important;
     padding: 10px 25px;
     border-radius: 25px;
     font-weight: 600;
