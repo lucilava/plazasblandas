@@ -85,28 +85,43 @@ body {
 
 /* Hero Section */
 .hero {
-    background: url('HEROIMAGE.png') center/cover no-repeat;
-    padding: 120px 0 60px 0;
-    text-align: left;
+    background: white;
+    padding: 60px 0;
+    text-align: center;
 }
 
 .hero .container {
     display: block;
     max-width: 1200px;
-    padding-left: 20px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.hero-image-container {
+    width: 100%;
+    max-width: 1200px;
+    height: 500px;
+    margin: 0 auto 50px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.hero-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .hero-content {
     padding: 0;
-    padding-left: 20px;
-    text-align: left;
-    max-width: 600px;
-    margin-left: 0;
-    margin-right: auto;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .hero-subtitle {
-    color: var(--primary-color);
+    color: var(--text-dark);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -126,20 +141,17 @@ body {
 }
 
 .hero-description {
-    font-size: 16px;
-    color: var(--text-light);
+    font-size: 18px;
+    color: #666;
     margin-bottom: 35px;
     line-height: 1.6;
-    max-width: 650px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .hero-buttons {
     display: flex;
     gap: 15px;
     margin-bottom: 20px;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -164,34 +176,19 @@ body {
 
 .btn-secondary {
     background: transparent;
-    color: var(--primary-color);
-    border: 2px solid transparent;
+    color: #fba833;
+    border: 2px solid #fba833;
 }
 
 .btn-secondary:hover {
-    color: #FF6B44;
+    background: #fba833;
+    color: white;
 }
 
 .hero-note {
-    color: #000000;
-    font-size: 13px;
-    margin-bottom: 50px;
-}
-
-.hero-image-bottom {
-    width: 100%;
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    padding: 0 20px 40px;
-}
-
-.hero-baby-image {
-    max-width: 400px;
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: var(--shadow);
+    color: #666;
+    font-size: 14px;
+    text-align: center;
 }
 
 /* Age Selection */
@@ -527,12 +524,17 @@ body {
         display: none;
     }
 
+    .hero-image-container {
+        height: 400px;
+        margin-bottom: 40px;
+    }
+
     .hero-title {
         font-size: 38px;
     }
 
-    .hero-description br {
-        display: none;
+    .hero-description {
+        font-size: 16px;
     }
 
     .age-cards-full {
@@ -571,12 +573,14 @@ body {
 }
 
 @media (max-width: 640px) {
-    .hero-title {
-        font-size: 32px;
+    .hero-image-container {
+        height: 300px;
+        margin-bottom: 30px;
+        border-radius: 15px;
     }
 
-    .hero-title br {
-        display: none;
+    .hero-title {
+        font-size: 32px;
     }
 
     .hero-buttons {
