@@ -295,14 +295,34 @@ body {
 .feature h3 {
     font-size: 22px;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: #fba833;
 }
 
-.feature p {
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.feature-list li {
+    padding: 8px 0;
     color: #666;
     font-size: 15px;
     line-height: 1.6;
+    position: relative;
+    padding-left: 30px;
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 /* Gallery */
@@ -557,7 +577,7 @@ body {
         height: 400px;
     }
 
-    /* Why Us - Mobile List Style */
+    /* Why Us - Mobile Simple List */
     .why-us {
         padding: 60px 0;
     }
@@ -581,12 +601,12 @@ body {
     .feature {
         background: transparent;
         padding: 0;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         border-radius: 0;
         box-shadow: none;
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: center;
         text-align: left;
         gap: 15px;
     }
@@ -605,20 +625,23 @@ body {
         font-weight: 700;
         color: #4CAF50;
         flex-shrink: 0;
-        margin-top: 2px;
     }
 
     .feature h3 {
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 0;
         color: #333;
     }
 
-    .feature p {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.5;
+    /* Hide list items on mobile - only show titles */
+    .feature-list {
+        display: none;
+    }
+
+    /* Custom text for third feature */
+    .feature:nth-child(3) h3::after {
+        content: " y Armado";
     }
 
     .gallery-grid {
