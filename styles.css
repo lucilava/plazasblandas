@@ -236,7 +236,7 @@ body {
 /* Why Us */
 .why-us {
     padding: 80px 0;
-    background: var(--bg-light);
+    background: #f9f9f9;
 }
 
 .section-title {
@@ -244,12 +244,12 @@ body {
     font-weight: 800;
     text-align: center;
     margin-bottom: 10px;
-    color: var(--text-dark);
+    color: #fba833;
 }
 
 .section-subtitle {
     text-align: center;
-    color: var(--text-light);
+    color: #666;
     font-size: 16px;
     margin-bottom: 50px;
 }
@@ -257,8 +257,11 @@ body {
 .features {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    gap: 30px;
     margin-top: 50px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .feature {
@@ -268,6 +271,9 @@ body {
     text-align: center;
     box-shadow: var(--shadow);
     transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .feature:hover {
@@ -283,17 +289,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .feature h3 {
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 15px;
-    color: var(--text-dark);
+    color: #fba833;
 }
 
 .feature p {
-    color: var(--text-light);
+    color: #666;
     font-size: 15px;
     line-height: 1.6;
 }
@@ -379,7 +386,7 @@ body {
 }
 
 .faq-form p {
-    color: var(--text-light);
+    color: #666;
     margin-bottom: 25px;
     font-size: 15px;
 }
@@ -399,7 +406,7 @@ body {
 .faq-form input:focus,
 .faq-form textarea:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: #fba833;
 }
 
 .faq-form textarea {
@@ -415,7 +422,7 @@ body {
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 30px;
-    color: var(--text-dark);
+    color: #fba833;
 }
 
 .faq-item {
@@ -432,7 +439,7 @@ body {
 .faq-icon {
     width: 30px;
     height: 30px;
-    background: var(--primary-color);
+    background: #fba833;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -445,13 +452,13 @@ body {
 .faq-question h3 {
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #fba833;
     margin-top: 3px;
 }
 
 .faq-answer {
     margin-left: 45px;
-    color: var(--text-light);
+    color: #666;
     font-size: 15px;
     line-height: 1.6;
 }
@@ -550,8 +557,68 @@ body {
         height: 400px;
     }
 
+    /* Why Us - Mobile List Style */
+    .why-us {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+
+    .section-subtitle {
+        display: none;
+    }
+
     .features {
-        grid-template-columns: 1fr;
+        display: block;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .feature {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 30px;
+        border-radius: 0;
+        box-shadow: none;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: 15px;
+    }
+
+    .feature:hover {
+        transform: none;
+    }
+
+    .feature-icon {
+        display: none;
+    }
+
+    .feature::before {
+        content: "✓";
+        font-size: 24px;
+        font-weight: 700;
+        color: #4CAF50;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .feature h3 {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .feature p {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
     }
 
     .gallery-grid {
@@ -594,7 +661,7 @@ body {
     }
 
     .section-title {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .gallery-grid {
