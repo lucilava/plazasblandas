@@ -639,9 +639,22 @@ body {
         display: none;
     }
 
-    /* Custom text for third feature */
-    .feature:nth-child(3) h3::after {
-        content: " y Armado";
+    /* Mobile: Change third feature title completely */
+    .feature:nth-child(3) h3 {
+        visibility: hidden;
+        position: relative;
+        height: 20px;
+    }
+
+    .feature:nth-child(3) h3::before {
+        content: "Traslado y Armado";
+        visibility: visible;
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
     }
 
     .gallery-grid {
