@@ -597,8 +597,6 @@ body {
     
     .age-card-full .age-card-image-full {
         height: 400px;
-        object-fit: contain;
-        background: #f9f9f9;
     }
 
     /* Why Us - Mobile Simple List */
