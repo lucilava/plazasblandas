@@ -16,6 +16,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("dMC5Di-0Lcsfs4ic4");
+        })();
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -208,11 +216,15 @@
                     <h2>¿Tenés una idea especial?</h2>
                     <p>Armamos propuestas a medida para casamientos, eventos corporativos, escuelas, clubes y restaurantes.</p>
                     <form id="contactForm">
-                        <input type="text" placeholder="Nombre" required>
-                        <input type="email" placeholder="Email" required>
-                        <textarea placeholder="Contanos tu idea" rows="4" required></textarea>
-                        <button type="submit" class="btn btn-primary btn-full">Consultar Personalizado</button>
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                        <textarea id="mensaje" name="mensaje" placeholder="Contanos tu idea" rows="4" required></textarea>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <span id="btnText">Enviar Consulta</span>
+                            <span id="btnLoader" style="display: none;">Enviando...</span>
+                        </button>
                     </form>
+                    <div id="formMessage" style="display: none; margin-top: 15px; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 600;"></div>
                 </div>
                 <div class="faq-questions">
                     <h2>Preguntas Frecuentes</h2>
@@ -327,6 +339,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // WhatsApp Chat Widget
         const whatsappButton = document.getElementById('whatsapp-button');
         const whatsappChat = document.getElementById('whatsapp-chat');
         const closeChat = document.getElementById('close-chat');
@@ -355,6 +368,73 @@
                 whatsappButton.style.display = 'flex';
             });
         }
+
+        // Formulario de contacto → Email directo con EmailJS
+        const contactForm = document.getElementById('contactForm');
+        const btnText = document.getElementById('btnText');
+        const btnLoader = document.getElementById('btnLoader');
+        const formMessage = document.getElementById('formMessage');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Mostrar loading
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            formMessage.style.display = 'none';
+            
+            // Preparar datos
+            const templateParams = {
+                from_name: document.getElementById('nombre').value,
+                from_email: document.getElementById('email').value,
+                message: document.getElementById('mensaje').value
+            };
+            
+            // Enviar email con EmailJS
+            emailjs.send(
+                'service_4g0j565',
+                'template_i3cioek',
+                templateParams
+            )
+            .then(function(response) {
+                // Éxito
+                console.log('SUCCESS!', response.status, response.text);
+                
+                // Mostrar mensaje de éxito
+                formMessage.style.display = 'block';
+                formMessage.style.background = '#d4edda';
+                formMessage.style.color = '#155724';
+                formMessage.style.border = '1px solid #c3e6cb';
+                formMessage.innerHTML = '✅ ¡Mensaje enviado correctamente! Te responderemos pronto.';
+                
+                // Limpiar formulario
+                contactForm.reset();
+                
+                // Restaurar botón
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+                
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+                
+            }, function(error) {
+                // Error
+                console.log('FAILED...', error);
+                
+                // Mostrar mensaje de error
+                formMessage.style.display = 'block';
+                formMessage.style.background = '#f8d7da';
+                formMessage.style.color = '#721c24';
+                formMessage.style.border = '1px solid #f5c6cb';
+                formMessage.innerHTML = '❌ Hubo un error al enviar. Por favor, intentá de nuevo o contactanos por WhatsApp.';
+                
+                // Restaurar botón
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            });
+        });
     });
     </script>
 
