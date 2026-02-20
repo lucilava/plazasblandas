@@ -355,6 +355,13 @@
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Volver arriba">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M5 12L12 5L19 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
     <!-- WhatsApp Float Button & Chat Widget -->
     <div id="whatsapp-widget">
         <div id="whatsapp-button" class="whatsapp-float">
@@ -461,6 +468,24 @@
                 formMessage.innerHTML = '❌ Hubo un error al enviar. Por favor, intentá de nuevo o contactanos por WhatsApp.';
                 btnText.style.display = 'inline';
                 btnLoader.style.display = 'none';
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
     });
