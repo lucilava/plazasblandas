@@ -301,6 +301,60 @@
         </div>
     </footer>
 
+    <!-- Blog/Consejos Section -->
+    <section class="blog" id="consejos">
+        <div class="container">
+            <h2 class="section-title">Consejos para Padres</h2>
+            <p class="section-subtitle">Tips para el desarrollo y entretenimiento de tu bebé</p>
+            
+            <div class="blog-grid">
+                <!-- Artículo 1 -->
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://placehold.co/600x400/FFF5F2/fba833?text=Juego+Libre" alt="Beneficios del juego libre">
+                    </div>
+                    <div class="blog-content">
+                        <h3>5 beneficios del juego libre para bebés de 0 a 2 años</h3>
+                        <p class="blog-excerpt">El juego libre es fundamental para el desarrollo saludable de tu bebé. Descubrí cómo las plazas blandas potencian estos beneficios de forma segura.</p>
+                        <button class="blog-read-more" onclick="openBlogModal('article1')">Leer más</button>
+                    </div>
+                </div>
+
+                <!-- Artículo 2 -->
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://placehold.co/600x400/FFF5F2/fba833?text=Primer+Cumpleaños" alt="Guía primer cumpleaños">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Guía completa: Primer cumpleaños del bebé</h3>
+                        <p class="blog-excerpt">El primer cumpleaños es un momento único. Te compartimos nuestra guía completa para organizar una celebración perfecta, segura y memorable.</p>
+                        <button class="blog-read-more" onclick="openBlogModal('article2')">Leer más</button>
+                    </div>
+                </div>
+
+                <!-- Artículo 3 -->
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://placehold.co/600x400/FFF5F2/fba833?text=Preparar+tu+Casa" alt="Cómo preparar tu casa">
+                    </div>
+                    <div class="blog-content">
+                        <h3>Cómo preparar tu casa para una plaza blanda</h3>
+                        <p class="blog-excerpt">Vas a recibir tu plaza blanda en casa y querés que todo salga perfecto. Esta guía práctica te ayuda a preparar el espacio ideal en minutos.</p>
+                        <button class="blog-read-more" onclick="openBlogModal('article3')">Leer más</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para artículos completos -->
+    <div id="blogModal" class="blog-modal">
+        <div class="blog-modal-content">
+            <button class="blog-modal-close" onclick="closeBlogModal()">&times;</button>
+            <div id="modalArticleContent"></div>
+        </div>
+    </div>
+
     <!-- WhatsApp Float Button & Chat Widget -->
     <div id="whatsapp-widget">
         <div id="whatsapp-button" class="whatsapp-float">
@@ -346,13 +400,11 @@
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         if (isMobile) {
-            // En móvil: abrir WhatsApp directamente
             whatsappButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 window.location.href = 'https://wa.me/5491112345678?text=Hola!%20Quiero%20consultar%20por%20las%20plazas%20blandas';
             });
         } else {
-            // En desktop: mostrar/ocultar chat widget
             whatsappButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (whatsappChat.style.display === 'none' || whatsappChat.style.display === '') {
@@ -369,7 +421,7 @@
             });
         }
 
-        // Formulario de contacto → Email directo con EmailJS
+        // Formulario de contacto
         const contactForm = document.getElementById('contactForm');
         const btnText = document.getElementById('btnText');
         const btnLoader = document.getElementById('btnLoader');
@@ -378,64 +430,167 @@
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Mostrar loading
             btnText.style.display = 'none';
             btnLoader.style.display = 'inline';
             formMessage.style.display = 'none';
             
-            // Preparar datos
             const templateParams = {
                 from_name: document.getElementById('nombre').value,
                 from_email: document.getElementById('email').value,
                 message: document.getElementById('mensaje').value
             };
             
-            // Enviar email con EmailJS
-            emailjs.send(
-                'service_4g0j565',
-                'template_i3cioek',
-                templateParams
-            )
+            emailjs.send('service_4g0j565', 'template_i3cioek', templateParams)
             .then(function(response) {
-                // Éxito
                 console.log('SUCCESS!', response.status, response.text);
-                
-                // Mostrar mensaje de éxito
                 formMessage.style.display = 'block';
                 formMessage.style.background = '#d4edda';
                 formMessage.style.color = '#155724';
                 formMessage.style.border = '1px solid #c3e6cb';
                 formMessage.innerHTML = '✅ ¡Mensaje enviado correctamente! Te responderemos pronto.';
-                
-                // Limpiar formulario
                 contactForm.reset();
-                
-                // Restaurar botón
                 btnText.style.display = 'inline';
                 btnLoader.style.display = 'none';
-                
-                // Ocultar mensaje después de 5 segundos
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                }, 5000);
-                
+                setTimeout(() => { formMessage.style.display = 'none'; }, 5000);
             }, function(error) {
-                // Error
                 console.log('FAILED...', error);
-                
-                // Mostrar mensaje de error
                 formMessage.style.display = 'block';
                 formMessage.style.background = '#f8d7da';
                 formMessage.style.color = '#721c24';
                 formMessage.style.border = '1px solid #f5c6cb';
                 formMessage.innerHTML = '❌ Hubo un error al enviar. Por favor, intentá de nuevo o contactanos por WhatsApp.';
-                
-                // Restaurar botón
                 btnText.style.display = 'inline';
                 btnLoader.style.display = 'none';
             });
         });
     });
+
+    // Contenido de los artículos del blog
+    const blogArticles = {
+        article1: `
+            <h2>5 beneficios del juego libre para bebés de 0 a 2 años</h2>
+            <p>El juego libre es una de las actividades más importantes para el desarrollo integral de tu bebé durante sus primeros dos años de vida. A diferencia del juego dirigido, el juego libre permite que los más pequeños exploren, experimenten y aprendan a su propio ritmo, sin instrucciones ni objetivos predefinidos.</p>
+            
+            <h3>1. Desarrollo Motor Grueso</h3>
+            <p>Durante el juego libre en una superficie blanda y segura, tu bebé fortalece sus músculos y mejora su coordinación de manera natural. Desde el gateo hasta los primeros pasos, cada movimiento es un logro que se construye en un ambiente donde pueden caer y levantarse sin riesgos.</p>
+            
+            <h3>2. Exploración Sensorial</h3>
+            <p>Las texturas suaves, los colores variados y las diferentes formas de los módulos de juego estimulan todos los sentidos de tu bebé. Esta estimulación sensorial es crucial para el desarrollo cognitivo y ayuda a crear conexiones neuronales fundamentales.</p>
+            
+            <h3>3. Desarrollo de la Autonomía</h3>
+            <p>Cuando los bebés pueden elegir qué explorar y cómo moverse, desarrollan confianza en sus capacidades. Esta autonomía temprana sienta las bases para una personalidad segura e independiente.</p>
+            
+            <h3>4. Conciencia Corporal</h3>
+            <p>El juego libre permite que los bebés aprendan sobre su propio cuerpo: cómo se mueve, dónde están sus límites, cómo mantener el equilibrio. Esta conciencia corporal es esencial para el desarrollo motor y la prevención de accidentes.</p>
+            
+            <h3>5. Curiosidad Cognitiva</h3>
+            <p>Sin presiones ni expectativas, los bebés aprenden por el puro placer de descubrir. Esta curiosidad natural es el motor del aprendizaje y se potencia en ambientes seguros donde pueden experimentar libremente.</p>
+            
+            <h3>Las plazas blandas: el espacio ideal para el juego libre</h3>
+            <p>Nuestras plazas blandas están diseñadas específicamente para maximizar estos beneficios. Con módulos 100% acolchados, superficies sanitizadas y materiales libres de tóxicos, creamos el ambiente perfecto para que tu bebé explore con total seguridad mientras vos disfrutás viendo sus logros.</p>
+        `,
+        article2: `
+            <h2>Guía completa: Primer cumpleaños del bebé</h2>
+            <p>El primer cumpleaños de tu bebé es mucho más que una fiesta: es la celebración de un año increíble lleno de primeras veces, desarrollo y amor. Aunque tu pequeño no recordará los detalles, las fotos y recuerdos de este día especial quedarán para siempre.</p>
+            
+            <h3>Planificación: 6-8 semanas antes</h3>
+            <p>Comenzá con lo básico: fecha, horario y cantidad de invitados. Para el primer cumpleaños, recomendamos eventos cortos (2-3 horas) en horarios que respeten la rutina de siesta de tu bebé. Lo ideal es media mañana (10-12h) o media tarde (16-18h).</p>
+            
+            <h3>La lista de invitados: menos es más</h3>
+            <p>A esta edad, los bebés se abruman fácilmente con mucha gente. Limitá la lista a familia cercana y amigos íntimos. Recordá que la estrella de la fiesta necesita sentirse cómoda y segura, no estimulada en exceso.</p>
+            
+            <h3>Decoración segura</h3>
+            <p>Evitá globos de látex (riesgo de asfixia), elementos pequeños que puedan llevarse a la boca, y decoraciones colgantes que puedan caer. Optá por guirnaldas altas, carteles en la pared y centros de mesa seguros.</p>
+            
+            <h3>Entretenimiento: el desafío principal</h3>
+            <p>Acá es donde muchos padres se complican. ¿Cómo entretener a bebés de diferentes edades? La respuesta: una plaza blanda. Permite que cada bebé juegue a su nivel, se mueva libremente, y los padres pueden relajarse sabiendo que es 100% seguro.</p>
+            
+            <h3>La torta y la comida</h3>
+            <p>Para tu bebé, prepará una smash cake pequeña (torta individual para que "destroce" en las fotos). Para los invitados, ofrecé opciones simples: sandwiches, frutas, y algo dulce para acompañar el café.</p>
+            
+            <h3>El momento de la torta</h3>
+            <p>Este es EL momento de fotos. Preparate con tu cámara, asegurate de tener buena luz natural, y dejá que tu bebé explore la torta sin presiones. Las mejores fotos salen cuando hay menos intervención.</p>
+            
+            <h3>Regalos: gestión de expectativas</h3>
+            <p>A esta edad, tu bebé va a estar más interesado en el papel y las cajas que en los regalos mismos. Es completamente normal y adorable. Sacá fotos del proceso, no solo del resultado.</p>
+            
+            <h3>Duración ideal</h3>
+            <p>No más de 2-3 horas. Cuando notes que tu bebé está cansado o sobreestimulado, no dudes en dar por terminada la fiesta. Es mejor un evento corto y feliz que uno largo y estresante.</p>
+            
+            <h3>El día después</h3>
+            <p>Tomate el día siguiente para descansar con tu bebé, revisar fotos juntos (aunque no las entienda) y relajarte. Ya cumpliste el año más intenso de tu vida como mamá o papá. ¡Felicitaciones!</p>
+            
+            <h3>Tip final de Plazas Blandas</h3>
+            <p>Considerá alquilar una plaza blanda para que sea el centro de entretenimiento. Los bebés estarán seguros, entretenidos y vos vas a poder disfrutar de tu propia fiesta sin preocupaciones. Nosotros nos encargamos del armado, traslado y desarmado. Vos solo disfrutá.</p>
+        `,
+        article3: `
+            <h2>Cómo preparar tu casa para una plaza blanda</h2>
+            <p>Alquilar una plaza blanda para tu casa es una excelente decisión para entretener a tu bebé de forma segura. Pero, ¿cómo preparás el espacio? Esta guía paso a paso te va a ayudar a tener todo listo antes de que llegue el equipo.</p>
+            
+            <h3>Paso 1: Elegir la ubicación (5 minutos)</h3>
+            <p>Buscá un espacio amplio en tu living o habitación principal. Lo ideal es un área de 3x3 metros para una plaza estándar (puede variar según la cantidad de módulos que alquiles).</p>
+            <p><strong>Criterios importantes:</strong></p>
+            <ul>
+                <li>Alejado de muebles con esquinas filosas</li>
+                <li>Lejos de ventanas bajas o puertas de vidrio</li>
+                <li>Buena iluminación natural</li>
+                <li>Alejado de la cocina o baño (para evitar interrupciones)</li>
+            </ul>
+            
+            <h3>Paso 2: Despejar el área (10 minutos)</h3>
+            <p>Retirá TODO lo que esté en el piso: alfombras, cables, juguetes sueltos, adornos bajos, plantas. Un piso limpio y despejado permite un armado más rápido y seguro.</p>
+            <p><strong>Qué mover:</strong> Mesa ratona o de centro (si está en el camino), sillas sueltas, macetas o plantas bajas, cestos de juguetes.</p>
+            <p><strong>Qué NO necesitás mover:</strong> Sillones o sofás (pueden quedar cerca), muebles pegados a la pared, bibliotecas o estanterías fijas, TV o mueble de TV.</p>
+            
+            <h3>Paso 3: Revisar el piso (2 minutos)</h3>
+            <p>Chequeá que el piso esté limpio (barrido o aspirado), seco (sin derrames), libre de objetos pequeños, y sin desniveles pronunciados.</p>
+            <p>Las plazas blandas funcionan perfectamente sobre cerámica, porcelanato, parquet o alfombras cortas. Si tenés alfombra de pelo largo, avisanos antes para preparar una base especial.</p>
+            
+            <h3>Paso 4: Pensar en los adultos (3 minutos)</h3>
+            <p>Recordá que los padres también necesitan espacio para supervisar y jugar. Dejá espacio para un sillón o sillas cerca para supervisar cómodamente, mesa auxiliar para vasos, snacks, celulares, y espacio para circular alrededor de la plaza.</p>
+            
+            <h3>Paso 5: Controlar la temperatura (1 minuto)</h3>
+            <p>La temperatura ideal para bebés es 20-22°C. Si es verano, asegurate de que haya ventilación (ventilador o aire acondicionado, nunca directo al bebé). Si es invierno, que esté cálido pero no sofocante.</p>
+            
+            <h3>Paso 6: Preparar entretenimiento adicional (opcional)</h3>
+            <p>Aunque la plaza blanda es súper entretenida por sí sola, podés complementar con música suave de fondo, algunos juguetes blandos extra, burbujas (¡les encantan!), y tu cámara lista para capturar momentos.</p>
+            
+            <h3>Medidas de seguridad adicionales</h3>
+            <p>Antes de que lleguen los bebés, hacé un último chequeo: enchufes cubiertos con protectores, cables de cortinas o persianas fuera de alcance, puertas cerradas (baño, cocina, habitaciones), mascotas en otra área de la casa.</p>
+            
+            <h3>¿Cuánto tiempo antes debo preparar?</h3>
+            <p>Con 20-30 minutos antes de que llegue el equipo de armado, es más que suficiente. El armado profesional toma entre 15-20 minutos.</p>
+            
+            <h3>Después del evento</h3>
+            <p>No te preocupes por la limpieza de la plaza, eso es trabajo nuestro. Nosotros nos encargamos del desarmado, carga y sanitización posterior. Vos solo disfrutá.</p>
+            
+            <h3>¿Dudas sobre el espacio?</h3>
+            <p>Si no estás segura de que tu espacio es adecuado, mandanos una foto por WhatsApp antes del evento. Te asesoramos sin cargo para que todo salga perfecto. Queremos que tu experiencia sea impecable de principio a fin.</p>
+        `
+    };
+
+    // Funciones para abrir y cerrar el modal del blog
+    function openBlogModal(articleId) {
+        const modal = document.getElementById('blogModal');
+        const content = document.getElementById('modalArticleContent');
+        content.innerHTML = blogArticles[articleId];
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBlogModal() {
+        const modal = document.getElementById('blogModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Cerrar modal al hacer click fuera del contenido
+    window.onclick = function(event) {
+        const modal = document.getElementById('blogModal');
+        if (event.target === modal) {
+            closeBlogModal();
+        }
+    }
     </script>
 
     <script src="script.js"></script>
