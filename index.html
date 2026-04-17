@@ -1,623 +1,491 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plazas Blandas | Juego libre y seguro para los más pequeños</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function(){
-            emailjs.init("dMC5Di-0Lcsfs4ic4");
-        })();
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plazas Blandas | Juego libre y seguro para los más pequeños</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #FFF8F0; font-family: 'Nunito', sans-serif; color: #2B2B3D; overflow-x: hidden; }
+
+:root {
+  --blue: #5B8FD6; --blue-dark: #4A75B5; --blue-light: #D6E6FA;
+  --coral: #F06B5B; --coral-light: #FDDDD8;
+  --orange: #F5A623; --orange-light: #FFF0D4;
+  --green: #6BBF6A; --green-light: #D9F2D9;
+  --cream: #FFF8F0; --white: #FFFFFF;
+  --dark: #2B2B3D; --mid: #6B6B82; --border: #EDE6DE;
+}
+
+/* ===== IMAGE PLACEHOLDER ===== */
+.ph {
+  background: linear-gradient(135deg, var(--blue-light), var(--coral-light), var(--orange-light));
+  border: 3px dashed rgba(91,143,214,.3);
+  border-radius: 24px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  color: var(--blue); font-size: 13px; font-weight: 700; text-align: center;
+  min-height: 200px; width: 100%; position: relative;
+}
+.ph span:first-child { font-size: 32px; opacity: .5; }
+.ph span:last-child { opacity: .45; padding: 0 16px; }
+
+/* ===== CONTAINER ===== */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ===== NAV ===== */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; transition: all .4s; padding: 0 24px; }
+.nav.scrolled { background: rgba(255,248,240,.92); backdrop-filter: blur(16px); box-shadow: 0 2px 20px rgba(0,0,0,.05); }
+.nav-in { max-width: 1100px; margin: 0 auto; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+.logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-ico { width: 42px; height: 42px; border-radius: 14px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 3px 10px rgba(91,143,214,.3); transform: rotate(-3deg); }
+.logo span { font-family: 'Baloo 2', cursive; font-size: 21px; font-weight: 800; color: var(--dark); }
+.d-links { display: flex; align-items: center; gap: 26px; }
+.d-links a { text-decoration: none; font-size: 15px; font-weight: 700; color: var(--mid); transition: color .2s; }
+.d-links a:hover { color: var(--coral); }
+.d-links .cta-n { background: var(--coral); color: #fff !important; padding: 10px 24px; border-radius: 100px; font-size: 14px; box-shadow: 0 4px 14px rgba(240,107,91,.25); transition: all .25s; }
+.d-links .cta-n:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,107,91,.35); }
+.m-toggle { display: none; background: var(--blue-light); border: none; width: 42px; height: 42px; border-radius: 12px; font-size: 20px; cursor: pointer; }
+.m-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.25); z-index: 98; }
+.m-overlay.on { display: block; }
+.m-drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: var(--cream); z-index: 99; padding: 24px; transition: right .3s; display: flex; flex-direction: column; gap: 4px; box-shadow: -4px 0 30px rgba(0,0,0,.08); }
+.m-drawer.on { right: 0; }
+.m-drawer .mx { align-self: flex-end; background: var(--coral-light); border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 18px; cursor: pointer; color: var(--coral); font-weight: 800; margin-bottom: 12px; }
+.m-drawer a { text-decoration: none; color: var(--dark); font-size: 16px; font-weight: 700; padding: 14px 0; border-bottom: 1px solid var(--border); display: block; }
+.m-drawer .mw { margin-top: 12px; background: var(--coral); color: #fff; padding: 14px; border-radius: 100px; text-align: center; font-weight: 800; text-decoration: none; display: block; }
+@media (max-width: 800px) { .d-links { display: none; } .m-toggle { display: flex; align-items: center; justify-content: center; } }
+
+/* ===== HERO ===== */
+.hero { padding: 112px 24px 64px; background: var(--cream); }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--white); border: 2px solid var(--blue-light); border-radius: 100px; padding: 7px 18px; margin-bottom: 24px; font-size: 14px; font-weight: 800; color: var(--blue); }
+.hero h1 { font-family: 'Baloo 2', cursive; font-size: clamp(34px, 4.5vw, 54px); font-weight: 800; line-height: 1.1; color: var(--dark); margin-bottom: 18px; }
+.hero h1 .c1 { color: var(--coral); }
+.hero h1 .c2 { color: var(--blue); }
+.hero-desc { font-size: 18px; line-height: 1.8; color: var(--mid); margin-bottom: 32px; max-width: 460px; }
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+.btn-b { background: var(--blue); color: #fff; padding: 16px 34px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 16px; box-shadow: 0 5px 20px rgba(91,143,214,.3); transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-b:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(91,143,214,.4); background: var(--blue-dark); }
+.btn-w { background: var(--white); color: var(--dark); padding: 16px 34px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 16px; border: 2.5px solid var(--border); transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-w:hover { border-color: var(--blue); color: var(--blue); }
+.hero-feats { display: flex; gap: 20px; flex-wrap: wrap; }
+.hf { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--dark); }
+.hf i { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-style: normal; }
+.hero-img { position: relative; }
+.hero-img .ph { min-height: 420px; border-radius: 28px; }
+.hero-img-label { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); background: var(--white); border-radius: 16px; padding: 12px 24px; box-shadow: 0 6px 24px rgba(0,0,0,.07); font-family: 'Baloo 2', cursive; font-size: 15px; font-weight: 700; color: var(--dark); white-space: nowrap; border: 2px solid var(--border); z-index: 2; }
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 36px; text-align: center; }
+  .hero-desc { margin: 0 auto 32px; }
+  .hero-btns, .hero-feats { justify-content: center; }
+  .hero-img .ph { min-height: 300px; }
+}
+
+/* ===== MARQUEE ===== */
+.marquee { background: var(--coral); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+.mq-track { display: inline-flex; animation: scroll 20s linear infinite; }
+@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.mq-item { display: inline-flex; align-items: center; gap: 12px; padding: 0 28px; font-family: 'Baloo 2', cursive; font-size: 16px; font-weight: 700; color: #fff; }
+.mq-item .dot { font-size: 10px; opacity: .5; }
+
+/* ===== WAVE ===== */
+.wave { width: 100%; line-height: 0; overflow: hidden; }
+.wave svg { display: block; width: 100%; height: 64px; }
+
+/* ===== SECTION HEADER ===== */
+.sh { text-align: center; margin-bottom: 48px; }
+.sh-tag { font-family: 'Baloo 2', cursive; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; display: inline-block; padding: 6px 18px; border-radius: 100px; margin-bottom: 12px; }
+.sh h2 { font-family: 'Baloo 2', cursive; font-size: clamp(26px, 3.8vw, 40px); font-weight: 800; color: var(--dark); line-height: 1.15; }
+.sh p { font-size: 16px; color: var(--mid); line-height: 1.7; max-width: 460px; margin: 10px auto 0; }
+
+/* ===== ABOUT (Blue) ===== */
+.about { background: var(--blue); padding: 80px 24px; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.about-photos .ph { min-height: 180px; border-radius: 20px; border-color: rgba(255,255,255,.2); }
+.about-photos .ph.big { grid-column: span 2; min-height: 220px; }
+.about-photos .ph span { color: #fff; }
+.about-info h2 { font-family: 'Baloo 2', cursive; font-size: clamp(24px, 3.2vw, 36px); font-weight: 800; color: #fff; margin-bottom: 14px; line-height: 1.15; }
+.about-info > p { font-size: 16px; color: rgba(255,255,255,.7); line-height: 1.8; margin-bottom: 24px; }
+.checks { display: flex; flex-direction: column; gap: 10px; }
+.chk { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 13px 16px; }
+.chk-i { width: 30px; height: 30px; border-radius: 10px; background: rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.chk span:last-child { font-size: 15px; font-weight: 700; color: #fff; }
+@media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 36px; } }
+
+/* ===== GALLERY ===== */
+.gallery { background: var(--cream); padding: 80px 24px; }
+.gal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 40px; }
+.gal-grid .ph { min-height: 220px; border-radius: 20px; }
+.gal-grid .ph.tall { grid-row: span 2; min-height: 454px; }
+.gal-grid .ph.wide { grid-column: span 2; }
+.gal-cta { text-align: center; }
+.btn-ig { background: linear-gradient(135deg, #833AB4, #E1306C, #FCAF45); color: #fff; padding: 16px 38px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 5px 20px rgba(225,48,108,.25); transition: all .25s; }
+.btn-ig:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(225,48,108,.35); }
+@media (max-width: 700px) {
+  .gal-grid { grid-template-columns: 1fr 1fr; }
+  .gal-grid .ph.tall { grid-row: span 1; min-height: 200px; }
+  .gal-grid .ph.wide { grid-column: span 2; }
+}
+
+/* ===== STEPS ===== */
+.steps { background: var(--white); padding: 80px 24px; }
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step { text-align: center; }
+.step .ph { min-height: 200px; border-radius: 20px; margin-bottom: 0; }
+.step-num { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 20px; color: #fff; margin: -24px auto 16px; position: relative; z-index: 2; box-shadow: 0 3px 12px rgba(0,0,0,.1); border: 3px solid var(--white); }
+.step h3 { font-family: 'Baloo 2', cursive; font-size: 19px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+.step p { font-size: 14px; color: var(--mid); line-height: 1.7; max-width: 280px; margin: 0 auto; }
+@media (max-width: 700px) { .steps-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; } }
+
+/* ===== REVIEWS ===== */
+.reviews { background: var(--orange-light); padding: 80px 24px; }
+.rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.rev { background: var(--white); border-radius: 24px; padding: 28px 24px; display: flex; flex-direction: column; box-shadow: 0 3px 12px rgba(0,0,0,.03); transition: all .3s; }
+.rev:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,.06); }
+.rev-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.rev-av { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: #fff; flex-shrink: 0; }
+.rev-nm { font-weight: 800; font-size: 15px; color: var(--dark); }
+.rev-loc { font-size: 12px; color: var(--mid); margin-top: 2px; }
+.rev-stars { font-size: 16px; margin-bottom: 12px; }
+.rev-txt { font-size: 15px; color: var(--dark); line-height: 1.7; font-style: italic; opacity: .85; flex: 1; }
+@media (max-width: 800px) { .rev-grid { grid-template-columns: 1fr; } }
+
+/* ===== FAQ ===== */
+.faq { background: var(--cream); padding: 80px 24px; }
+.faq-list { max-width: 660px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+.fqi { background: var(--white); border-radius: 20px; border: 2.5px solid var(--border); overflow: hidden; transition: all .3s; }
+.fqi.on { border-color: var(--blue-light); box-shadow: 0 4px 20px rgba(91,143,214,.08); }
+.fqi button { width: 100%; padding: 20px 24px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 14px; text-align: left; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; color: var(--dark); }
+.fqi .ico { width: 34px; height: 34px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--blue); font-weight: 800; transition: all .3s; flex-shrink: 0; }
+.fqi.on .ico { background: var(--blue); color: #fff; transform: rotate(45deg); }
+.fqi .ans { max-height: 0; overflow: hidden; transition: max-height .4s; }
+.fqi.on .ans { max-height: 200px; }
+.fqi .ans p { padding: 0 24px 20px; font-size: 15px; color: var(--mid); line-height: 1.75; }
+
+/* ===== CTA ===== */
+.cta { padding: 20px 24px 80px; background: var(--cream); }
+.cta-box { display: grid; grid-template-columns: 1fr 1fr; border-radius: 32px; overflow: hidden; box-shadow: 0 8px 40px rgba(91,143,214,.12); }
+.cta-box .ph { min-height: 360px; border-radius: 0; border: none; }
+.cta-txt { background: var(--blue); padding: 52px 40px; display: flex; flex-direction: column; justify-content: center; }
+.cta-txt h2 { font-family: 'Baloo 2', cursive; font-size: clamp(24px, 3vw, 36px); font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.15; }
+.cta-txt > p { font-size: 16px; color: rgba(255,255,255,.6); line-height: 1.7; margin-bottom: 28px; }
+.cta-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-wa { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; padding: 16px 34px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 16px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 5px 20px rgba(37,211,102,.3); transition: all .25s; }
+.btn-wa:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,.4); }
+.btn-wa2 { background: rgba(255,255,255,.12); color: #fff; padding: 16px 30px; border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 15px; border: 2px solid rgba(255,255,255,.2); display: inline-flex; align-items: center; gap: 8px; transition: all .25s; }
+.btn-wa2:hover { background: rgba(255,255,255,.2); }
+@media (max-width: 700px) {
+  .cta-box { grid-template-columns: 1fr; }
+  .cta-box .ph { min-height: 220px; }
+  .cta-txt { padding: 36px 28px; }
+}
+
+/* ===== FOOTER ===== */
+.foot { background: var(--dark); padding: 48px 24px 28px; border-radius: 32px 32px 0 0; }
+.foot-in { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.foot-brand { display: flex; align-items: center; gap: 10px; }
+.foot-brand .fi { width: 30px; height: 30px; border-radius: 10px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.foot-brand span { font-family: 'Baloo 2', cursive; font-size: 17px; font-weight: 700; color: rgba(255,255,255,.85); }
+.foot-cp { font-size: 12px; color: rgba(255,255,255,.2); margin-top: 4px; }
+.foot-links { display: flex; gap: 22px; }
+.foot-links a { font-size: 14px; color: rgba(255,255,255,.35); text-decoration: none; font-weight: 700; transition: color .2s; }
+.foot-links a:hover { color: rgba(255,255,255,.85); }
+
+/* ===== FLOAT WA ===== */
+.float-wa { position: fixed; bottom: 22px; right: 22px; z-index: 999; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #25D366, #128C7E); display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 26px; box-shadow: 0 5px 24px rgba(37,211,102,.4); transition: all .25s; animation: pul 2.5s ease-in-out infinite; }
+.float-wa:hover { transform: scale(1.1); }
+@keyframes pul { 0%,100% { box-shadow: 0 5px 24px rgba(37,211,102,.4); } 50% { box-shadow: 0 5px 24px rgba(37,211,102,.6), 0 0 0 10px rgba(37,211,102,.08); } }
+
+/* ===== SCROLL ANIM ===== */
+.sa { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.sa.vis { opacity: 1; transform: translateY(0); }
+.sa.dl1 { transition-delay: .1s; }
+.sa.dl2 { transition-delay: .18s; }
+.sa.dl3 { transition-delay: .26s; }
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="nav-wrapper">
-                <a href="#inicio">
-                    <img src="logologo.png" alt="Plazas Blandas" class="logo-image">
-                </a>
-                <nav class="nav">
-                    <a href="#inicio">Inicio</a>
-                    <a href="#galeria">Galería</a>
-                    <a href="https://wa.me/5491169648137" class="btn-reservar">Reservar</a>
-                </nav>
-            </div>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="container">
-            <div class="hero-image-container">
-                <img src="HEROIMAGE.jpeg" alt="Plaza blanda para bebés">
-            </div>
-            <div class="hero-content">
-                <h1 class="hero-title">Juego libre y seguro para los más pequeños</h1>
-                <p class="hero-description">Creamos plazas blandas, totalmente acolchadas y sanitizadas. Entretenimiento seguro para tu casa y eventos en Buenos Aires.</p>
-                <div class="hero-buttons">
-                    <a href="https://wa.me/5491169648137" class="btn btn-primary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/>
-                            <path d="M8 12L12 8L16 12M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                        Consultar por WhatsApp
-                    </a>
-                    <a href="#galeria" class="btn btn-secondary">Ver Galería</a>
-                </div>
-                <p class="hero-note">✓ Incluye armado y traslado (CABA / GBA Norte)</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Age Selection Section -->
-    <section class="age-selection">
-        <div class="container">
-            <div class="age-cards-full">
-                <div class="age-card-full">
-                    <h2 class="age-card-title">Bebés</h2>
-                    <picture>
-                        <source media="(max-width: 968px)" srcset="BEBE1-mobile.png">
-                        <img src="BEBE1.png" alt="Bebés" class="age-card-image-full">
-                    </picture>
-                </div>
-                <div class="age-card-full">
-                    <h2 class="age-card-title">Niños</h2>
-                    <picture>
-                        <source media="(max-width: 968px)" srcset="NIÑA1-mobile.png">
-                        <img src="NIÑA1.png" alt="Niños" class="age-card-image-full">
-                    </picture>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Us Section -->
-    <section class="why-us">
-        <div class="container">
-            <h2 class="section-title">¿Por qué elegirnos?</h2>
-            <p class="section-subtitle">Diseñado pensando en la seguridad y el desarrollo de tu bebé</p>
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 5L8 10V18C8 26 14 32 20 35C26 32 32 26 32 18V10L20 5Z" stroke="#FF7B54" stroke-width="2" fill="none"/>
-                            <path d="M15 20L18 23L25 16" stroke="#FF7B54" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>100% Seguro y Acolchado</h3>
-                    <ul class="feature-list">
-                        <li>Libre de tóxicos</li>
-                        <li>Bordes acolchados</li>
-                        <li>Materiales de alta calidad</li>
-                    </ul>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="15" r="6" stroke="#FF7B54" stroke-width="2" fill="none"/>
-                            <path d="M12 25C12 22 15.5 20 20 20C24.5 20 28 22 28 25" stroke="#FF7B54" stroke-width="2" fill="none"/>
-                            <path d="M15 28L17 30L23 24" stroke="#FF7B54" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3>Higiene Garantizada</h3>
-                    <ul class="feature-list">
-                        <li>Antes y después de cada evento</li>
-                        <li>Módulos sanitizados</li>
-                        <li>Pisos de goma eva sanitizados</li>
-                    </ul>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="10" y="15" width="20" height="15" rx="2" stroke="#FF7B54" stroke-width="2" fill="none"/>
-                            <path d="M15 15V12C15 10 16.5 8 20 8C23.5 8 25 10 25 12V15" stroke="#FF7B54" stroke-width="2" fill="none"/>
-                            <circle cx="20" cy="23" r="2" fill="#FF7B54"/>
-                        </svg>
-                    </div>
-                    <h3>Servicio Integral</h3>
-                    <ul class="feature-list">
-                        <li>Traslado</li>
-                        <li>Armado</li>
-                        <li>Desarmado</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery" id="galeria">
-        <div class="container">
-            <h2 class="section-title">Galería de Momentos</h2>
-            <p class="section-subtitle">Espacios reales, sonrisas reales</p>
-            <div class="gallery-grid">
-                <div class="gallery-item large" style="background-image: url('MOMENTOS.jpeg'); background-size: cover; background-position: center;"></div>
-                <div class="gallery-item" style="background-image: url('MOMENTOS1.jpeg'); background-size: cover; background-position: center;"></div>
-                <div class="gallery-item legos"></div>
-                <div class="gallery-item colorful-toys"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <div class="container">
-            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
-            <p class="section-subtitle">Familias felices que confiaron en nosotros</p>
-            
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">
-                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-                    </div>
-                    <p class="testimonial-text">"Impecable el servicio. Mi hija de 8 meses no paró de jugar en toda la tarde. Super limpio y los módulos están en perfecto estado."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">M</div>
-                        <div class="testimonial-info">
-                            <h4>María</h4>
-                            <p>Belgrano</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">
-                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-                    </div>
-                    <p class="testimonial-text">"Lo alquilamos para el primer cumpleaños de nuestro hijo. Llegaron puntuales, armaron todo en 20 minutos y fue un éxito. Los chicos no querían irse!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">J</div>
-                        <div class="testimonial-info">
-                            <h4>Juan</h4>
-                            <p>San Isidro</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">
-                        <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-                    </div>
-                    <p class="testimonial-text">"Excelente atención desde el primer momento. Me ayudaron a elegir los módulos ideales para el espacio que tenía. 100% recomendable."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">L</div>
-                        <div class="testimonial-info">
-                            <h4>Laura</h4>
-                            <p>Vicente López</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <div class="faq-wrapper">
-                <div class="faq-form">
-                    <h2>¿Tenés una idea especial?</h2>
-                    <p>Armamos propuestas a medida para casamientos, eventos corporativos, escuelas, clubes y restaurantes.</p>
-                    <form id="contactForm">
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-                        <input type="email" id="email" name="email" placeholder="Email" required>
-                        <textarea id="mensaje" name="mensaje" placeholder="Contanos tu idea" rows="4" required></textarea>
-                        <button type="submit" class="btn btn-primary btn-full">
-                            <span id="btnText">Enviar Consulta</span>
-                            <span id="btnLoader" style="display: none;">Enviando...</span>
-                        </button>
-                    </form>
-                    <div id="formMessage" style="display: none; margin-top: 15px; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 600;"></div>
-                </div>
-                <div class="faq-questions">
-                    <h2>Preguntas Frecuentes</h2>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span class="faq-icon">?</span>
-                            <h3>¿Hasta qué edad son los juegos?</h3>
-                        </div>
-                        <p class="faq-answer">Nuestras plazas están diseñadas específicamente para la primera infancia, de 6 meses a 5 años inclusive.</p>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span class="faq-icon">?</span>
-                            <h3>¿Cuál es la zona de cobertura?</h3>
-                        </div>
-                        <p class="faq-answer">Cubrimos toda CABA y Zona Norte (Vicente López, San Isidro, Tigre). Consultá por otras zonas.</p>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span class="faq-icon">?</span>
-                            <h3>¿Cuánto dura el alquiler?</h3>
-                        </div>
-                        <p class="faq-answer">El precio base incluye hasta 4 horas de evento. El armado se realiza 1 hora antes del inicio.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog/Consejos Section -->
-    <section class="blog" id="consejos">
-        <div class="container">
-            <h2 class="section-title">Blog para MaPadres</h2>
-            <p class="section-subtitle">Tips para el desarrollo y entretenimiento de tu bebé</p>
-            
-            <div class="blog-grid">
-                <!-- Artículo 1 -->
-                <div class="blog-card">
-                    <div class="blog-image">
-                        <img src="https://placehold.co/600x400/FFF5F2/fba833?text=Juego+Libre" alt="Beneficios del juego libre">
-                    </div>
-                    <div class="blog-content">
-                        <h3>5 beneficios del juego libre para bebés de 6 meses a 5 años</h3>
-                        <p class="blog-excerpt">El juego libre es fundamental para el desarrollo saludable de tu bebé. Descubrí cómo las plazas blandas potencian estos beneficios de forma segura.</p>
-                        <button class="blog-read-more" onclick="openBlogModal('article1')">Leer más</button>
-                    </div>
-                </div>
-
-                <!-- Artículo 2 -->
-                <div class="blog-card">
-                    <div class="blog-image">
-                        <img src="https://placehold.co/600x400/FFF5F2/fba833?text=Primer+Cumpleaños" alt="Guía primer cumpleaños">
-                    </div>
-                    <div class="blog-content">
-                        <h3>Guía completa: Primer cumpleaños del bebé</h3>
-                        <p class="blog-excerpt">El primer cumpleaños es un momento único. Te compartimos nuestra guía completa para organizar una celebración perfecta, segura y memorable.</p>
-                        <button class="blog-read-more" onclick="openBlogModal('article2')">Leer más</button>
-                    </div>
-                </div>
-
-                <!-- Artículo 3 -->
-                <div class="blog-card">
-                    <div class="blog-image">
-                        <img src="https://placehold.co/600x400/FFF5F2/fba833?text=Preparar+tu+Casa" alt="Cómo preparar tu casa">
-                    </div>
-                    <div class="blog-content">
-                        <h3>Cómo preparar tu casa para una plaza blanda</h3>
-                        <p class="blog-excerpt">Vas a recibir tu plaza blanda en casa y querés que todo salga perfecto. Esta guía práctica te ayuda a preparar el espacio ideal en minutos.</p>
-                        <button class="blog-read-more" onclick="openBlogModal('article3')">Leer más</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal para artículos completos -->
-    <div id="blogModal" class="blog-modal">
-        <div class="blog-modal-content">
-            <button class="blog-modal-close" onclick="closeBlogModal()">&times;</button>
-            <div id="modalArticleContent"></div>
-        </div>
+<!-- ========== NAV ========== -->
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="logo"><div class="logo-ico">🏠</div><span>Plazas Blandas</span></a>
+    <div class="d-links">
+      <a href="#nosotros">Nosotros</a>
+      <a href="#galeria">Galería</a>
+      <a href="#como">Cómo funciona</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://wa.me/5491169648137?text=Hola!%20Quiero%20info%20de%20Plazas%20Blandas" target="_blank" class="cta-n">💬 Reservar</a>
     </div>
+    <button class="m-toggle" onclick="openM()">☰</button>
+  </div>
+</nav>
+<div class="m-overlay" id="mOv" onclick="closeM()"></div>
+<div class="m-drawer" id="mDr">
+  <button class="mx" onclick="closeM()">✕</button>
+  <a href="#nosotros" onclick="closeM()">Nosotros</a>
+  <a href="#galeria" onclick="closeM()">Galería</a>
+  <a href="#como" onclick="closeM()">Cómo funciona</a>
+  <a href="#faq" onclick="closeM()">FAQ</a>
+  <a href="https://wa.me/5491169648137?text=Hola!%20Quiero%20info%20de%20Plazas%20Blandas" target="_blank" class="mw">💬 Reservar por WhatsApp</a>
+</div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3 class="footer-logo">Plazas Blandas</h3>
-                </div>
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <div class="footer-social">
-                        <a href="https://wa.me/5491169648137" target="_blank" aria-label="WhatsApp">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="currentColor"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.instagram.com/plazasblandasarg/" target="_blank" aria-label="Instagram">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="currentColor"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.facebook.com/people/Plazas-Blandas/61583755025495/" target="_blank" aria-label="Facebook">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/>
-                            </svg>
-                        </a>
-                        <a href="mailto:natalia@plazasblandas.com.ar" aria-label="Email">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Zonas</h4>
-                    <p>Capital Federal</p>
-                    <p>Vicente López</p>
-                    <p>San Isidro</p>
-                    <p>Tigre</p>
-                    <p class="footer-zones-note">Consultá por otras zonas</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2025 Plazas Blandas. Todos los derechos reservados.</p>
-            </div>
+<!-- ========== HERO ========== -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="sa">
+        <div class="hero-tag">📍 CABA & GBA Norte</div>
+        <h1>Juego <span class="c1">libre</span> y <span class="c2">seguro</span> para los más pequeños</h1>
+        <p class="hero-desc">Módulos acolchados + pelotero para bebés de 1 a 4 años. Cumpleaños, eventos y jardines. 🎉</p>
+        <div class="hero-btns">
+          <a href="https://wa.me/5491169648137?text=Hola!%20Quiero%20info%20de%20Plazas%20Blandas" target="_blank" class="btn-b">🎈 Reservar ahora</a>
+          <a href="#como" class="btn-w">¿Cómo funciona?</a>
         </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" aria-label="Volver arriba">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 19V5M5 12L12 5L19 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
-
-    <!-- WhatsApp Float Button & Chat Widget -->
-    <div id="whatsapp-widget">
-        <div id="whatsapp-button" class="whatsapp-float">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M16 29C23.18 29 29 23.18 29 16C29 8.82 23.18 3 16 3C8.82 3 3 8.82 3 16C3 18.69 3.846 21.18 5.28 23.25L3.84 28.16L8.94 26.75C10.95 27.98 13.38 28.75 16 28.75V29ZM12.15 10.07C12.39 10.02 12.63 10.02 12.87 10.07C13.03 10.07 13.19 10.14 13.34 10.24C13.64 10.43 14.59 11.52 14.75 11.85C14.88 12.13 14.92 12.44 14.75 12.71C14.61 12.94 14.52 13.09 14.29 13.33C14.09 13.54 13.88 13.79 13.71 13.97C13.51 14.18 13.28 14.41 13.54 14.81C13.8 15.21 14.74 16.62 16.11 17.78C17.87 19.27 19.33 19.74 19.79 19.94C20.04 20.05 20.34 20.02 20.59 19.75C20.89 19.42 21.35 18.77 21.66 18.42C21.89 18.16 22.2 18.13 22.48 18.24C22.76 18.35 24.42 19.17 24.72 19.32C25.02 19.47 25.21 19.55 25.29 19.67C25.37 19.83 25.37 20.49 25.1 21.25C24.83 22.01 23.55 22.72 22.94 22.78C22.38 22.83 21.79 23.01 19.26 21.96C16.23 20.72 14.18 17.65 14.01 17.42C13.84 17.19 12.64 15.62 12.64 13.99C12.64 12.36 13.48 11.56 13.8 11.21C14.07 10.91 14.42 10.84 14.63 10.84L12.15 10.07Z" fill="white"/>
-            </svg>
+        <div class="hero-feats">
+          <div class="hf"><i style="background:var(--green-light)">🛡️</i> 100% seguro</div>
+          <div class="hf"><i style="background:var(--coral-light)">🧼</i> Sanitizado</div>
+          <div class="hf"><i style="background:var(--blue-light)">🚚</i> Armado incluido</div>
         </div>
-        
-        <div id="whatsapp-chat" class="whatsapp-chat-box" style="display: none;">
-            <div class="whatsapp-chat-header">
-                <div class="whatsapp-chat-avatar">
-                    <img src="logologo.png" alt="Plazas Blandas">
-                </div>
-                <div class="whatsapp-chat-info">
-                    <h4>Plazas Blandas</h4>
-                    <p>Responde rápidamente</p>
-                </div>
-                <button id="close-chat" class="whatsapp-close">×</button>
-            </div>
-            <div class="whatsapp-chat-body">
-                <div class="whatsapp-message">
-                    <p>👋 ¡Hola! ¿En qué podemos ayudarte?</p>
-                    <span class="whatsapp-time">Ahora</span>
-                </div>
-            </div>
-            <div class="whatsapp-chat-footer">
-                <a href="https://wa.me/5491169648137?text=Hola!%20Quiero%20consultar%20por%20las%20plazas%20blandas" target="_blank" class="whatsapp-send-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                        <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
-                    </svg>
-                    Iniciar conversación
-                </a>
-            </div>
+      </div>
+      <div class="hero-img sa dl1">
+        <div class="ph" style="min-height:420px;border-radius:28px">
+          <span>📸</span>
+          <span>FOTO HERO — Nenes jugando en la plaza blanda</span>
         </div>
+        <div class="hero-img-label">🎊 Módulos + Pelotero — Todo incluido</div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // WhatsApp Chat Widget
-        const whatsappButton = document.getElementById('whatsapp-button');
-        const whatsappChat = document.getElementById('whatsapp-chat');
-        const closeChat = document.getElementById('close-chat');
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        if (isMobile) {
-            whatsappButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = 'https://wa.me/5491169648137?text=Hola!%20Quiero%20consultar%20por%20las%20plazas%20blandas';
-            });
-        } else {
-            whatsappButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (whatsappChat.style.display === 'none' || whatsappChat.style.display === '') {
-                    whatsappChat.style.display = 'block';
-                    whatsappButton.style.display = 'none';
-                } else {
-                    whatsappChat.style.display = 'none';
-                }
-            });
-            
-            closeChat.addEventListener('click', function() {
-                whatsappChat.style.display = 'none';
-                whatsappButton.style.display = 'flex';
-            });
-        }
+<!-- ========== MARQUEE ========== -->
+<div class="marquee">
+  <div class="mq-track" id="mqt">
+    <span class="mq-item"><span class="dot">★</span> Cumpleaños</span>
+    <span class="mq-item"><span class="dot">★</span> Jardines de infantes</span>
+    <span class="mq-item"><span class="dot">★</span> Baby showers</span>
+    <span class="mq-item"><span class="dot">★</span> Eventos privados</span>
+    <span class="mq-item"><span class="dot">★</span> Día de parque</span>
+    <span class="mq-item"><span class="dot">★</span> Reuniones familiares</span>
+  </div>
+</div>
 
-        // Formulario de contacto
-        const contactForm = document.getElementById('contactForm');
-        const btnText = document.getElementById('btnText');
-        const btnLoader = document.getElementById('btnLoader');
-        const formMessage = document.getElementById('formMessage');
+<!-- ========== WAVE INTO BLUE ========== -->
+<div class="wave"><svg viewBox="0 0 1440 64" preserveAspectRatio="none"><path fill="#5B8FD6" d="M0,48L120,42.7C240,37,480,27,720,26.7C960,27,1200,37,1320,42.7L1440,48L1440,64L0,64Z"/></svg></div>
 
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            btnText.style.display = 'none';
-            btnLoader.style.display = 'inline';
-            formMessage.style.display = 'none';
-            
-            const templateParams = {
-                from_name: document.getElementById('nombre').value,
-                from_email: document.getElementById('email').value,
-                message: document.getElementById('mensaje').value
-            };
-            
-            emailjs.send('service_4g0j565', 'template_i3cioek', templateParams)
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-                formMessage.style.display = 'block';
-                formMessage.style.background = '#d4edda';
-                formMessage.style.color = '#155724';
-                formMessage.style.border = '1px solid #c3e6cb';
-                formMessage.innerHTML = '✅ ¡Mensaje enviado correctamente! Te responderemos pronto.';
-                contactForm.reset();
-                btnText.style.display = 'inline';
-                btnLoader.style.display = 'none';
-                setTimeout(() => { formMessage.style.display = 'none'; }, 5000);
-            }, function(error) {
-                console.log('FAILED...', error);
-                formMessage.style.display = 'block';
-                formMessage.style.background = '#f8d7da';
-                formMessage.style.color = '#721c24';
-                formMessage.style.border = '1px solid #f5c6cb';
-                formMessage.innerHTML = '❌ Hubo un error al enviar. Por favor, intentá de nuevo o contactanos por WhatsApp.';
-                btnText.style.display = 'inline';
-                btnLoader.style.display = 'none';
-            });
-        });
+<!-- ========== ABOUT (Blue) ========== -->
+<section class="about" id="nosotros">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-photos sa">
+        <div class="ph big" style="border-color:rgba(255,255,255,.15)">
+          <span>📸</span>
+          <span style="color:rgba(255,255,255,.5)">FOTO — Setup completo armado</span>
+        </div>
+        <div class="ph" style="min-height:170px;border-color:rgba(255,255,255,.15)">
+          <span>📸</span>
+          <span style="color:rgba(255,255,255,.5)">FOTO — Nene jugando</span>
+        </div>
+        <div class="ph" style="min-height:170px;border-color:rgba(255,255,255,.15)">
+          <span>📸</span>
+          <span style="color:rgba(255,255,255,.5)">FOTO — Pelotero</span>
+        </div>
+      </div>
+      <div class="about-info sa dl1">
+        <h2>Un espacio pensado para que exploren felices 💛</h2>
+        <p>Módulos de goma espuma de alta densidad con fundas lavables y colores vibrantes. Rampas, escaleras, túneles y pelotero. Todo acolchado y libre de tóxicos.</p>
+        <div class="checks">
+          <div class="chk"><div class="chk-i">🧸</div><span>Exploración sensorial y motricidad</span></div>
+          <div class="chk"><div class="chk-i">🛡️</div><span>Materiales premium, sin tóxicos</span></div>
+          <div class="chk"><div class="chk-i">🧼</div><span>Sanitizado antes y después</span></div>
+          <div class="chk"><div class="chk-i">🚚</div><span>Traslado, armado y desarmado</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Back to Top Button
-        const backToTopButton = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('show');
-            } else {
-                backToTopButton.classList.remove('show');
-            }
-        });
-        
-        backToTopButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    });
+<!-- ========== WAVE OUT OF BLUE ========== -->
+<div class="wave" style="transform:scaleY(-1)"><svg viewBox="0 0 1440 64" preserveAspectRatio="none"><path fill="#5B8FD6" d="M0,48L120,42.7C240,37,480,27,720,26.7C960,27,1200,37,1320,42.7L1440,48L1440,64L0,64Z"/></svg></div>
 
-    // Contenido de los artículos del blog
-    const blogArticles = {
-        article1: `
-            <h2>5 beneficios del juego libre para bebés de 6 meses a 5 años</h2>
-            <p>El juego libre es una de las actividades más importantes para el desarrollo integral de tu bebé. A diferencia del juego dirigido, el juego libre permite que los más pequeños exploren, experimenten y aprendan a su propio ritmo, sin instrucciones ni objetivos predefinidos.</p>
-            
-            <h3>1. Desarrollo Motor Grueso</h3>
-            <p>Durante el juego libre en una superficie blanda y segura, tu bebé fortalece sus músculos y mejora su coordinación de manera natural. Desde el gateo hasta los primeros pasos, cada movimiento es un logro que se construye en un ambiente donde pueden caer y levantarse sin riesgos.</p>
-            
-            <h3>2. Exploración Sensorial</h3>
-            <p>Las texturas suaves, los colores variados y las diferentes formas de los módulos de juego estimulan todos los sentidos de tu bebé. Esta estimulación sensorial es crucial para el desarrollo cognitivo y ayuda a crear conexiones neuronales fundamentales.</p>
-            
-            <h3>3. Desarrollo de la Autonomía</h3>
-            <p>Cuando los bebés pueden elegir qué explorar y cómo moverse, desarrollan confianza en sus capacidades. Esta autonomía temprana sienta las bases para una personalidad segura e independiente.</p>
-            
-            <h3>4. Conciencia Corporal</h3>
-            <p>El juego libre permite que los bebés aprendan sobre su propio cuerpo: cómo se mueve, dónde están sus límites, cómo mantener el equilibrio. Esta conciencia corporal es esencial para el desarrollo motor y la prevención de accidentes.</p>
-            
-            <h3>5. Curiosidad Cognitiva</h3>
-            <p>Sin presiones ni expectativas, los bebés aprenden por el puro placer de descubrir. Esta curiosidad natural es el motor del aprendizaje y se potencia en ambientes seguros donde pueden experimentar libremente.</p>
-            
-            <h3>Las plazas blandas: el espacio ideal para el juego libre</h3>
-            <p>Nuestras plazas blandas están diseñadas específicamente para maximizar estos beneficios. Con módulos 100% acolchados, superficies sanitizadas y materiales libres de tóxicos, creamos el ambiente perfecto para que tu bebé explore con total seguridad mientras vos disfrutás viendo sus logros.</p>
-        `,
-        article2: `
-            <h2>Guía completa: Primer cumpleaños del bebé</h2>
-            <p>El primer cumpleaños de tu bebé es mucho más que una fiesta: es la celebración de un año increíble lleno de primeras veces, desarrollo y amor. Aunque tu pequeño no recordará los detalles, las fotos y recuerdos de este día especial quedarán para siempre.</p>
-            
-            <h3>Planificación: 6-8 semanas antes</h3>
-            <p>Comenzá con lo básico: fecha, horario y cantidad de invitados. Para el primer cumpleaños, recomendamos eventos cortos (2-3 horas) en horarios que respeten la rutina de siesta de tu bebé. Lo ideal es media mañana (10-12h) o media tarde (16-18h).</p>
-            
-            <h3>La lista de invitados: menos es más</h3>
-            <p>A esta edad, los bebés se abruman fácilmente con mucha gente. Limitá la lista a familia cercana y amigos íntimos. Recordá que la estrella de la fiesta necesita sentirse cómoda y segura, no estimulada en exceso.</p>
-            
-            <h3>Decoración segura</h3>
-            <p>Evitá globos de látex (riesgo de asfixia), elementos pequeños que puedan llevarse a la boca, y decoraciones colgantes que puedan caer. Optá por guirnaldas altas, carteles en la pared y centros de mesa seguros.</p>
-            
-            <h3>Entretenimiento: el desafío principal</h3>
-            <p>Acá es donde muchos padres se complican. ¿Cómo entretener a bebés de diferentes edades? La respuesta: una plaza blanda. Permite que cada bebé juegue a su nivel, se mueva libremente, y los padres pueden relajarse sabiendo que es 100% seguro.</p>
-            
-            <h3>La torta y la comida</h3>
-            <p>Para tu bebé, prepará una smash cake pequeña (torta individual para que "destroce" en las fotos). Para los invitados, ofrecé opciones simples: sandwiches, frutas, y algo dulce para acompañar el café.</p>
-            
-            <h3>El momento de la torta</h3>
-            <p>Este es EL momento de fotos. Preparate con tu cámara, asegurate de tener buena luz natural, y dejá que tu bebé explore la torta sin presiones. Las mejores fotos salen cuando hay menos intervención.</p>
-            
-            <h3>Regalos: gestión de expectativas</h3>
-            <p>A esta edad, tu bebé va a estar más interesado en el papel y las cajas que en los regalos mismos. Es completamente normal y adorable. Sacá fotos del proceso, no solo del resultado.</p>
-            
-            <h3>Duración ideal</h3>
-            <p>No más de 2-3 horas. Cuando notes que tu bebé está cansado o sobreestimulado, no dudes en dar por terminada la fiesta. Es mejor un evento corto y feliz que uno largo y estresante.</p>
-            
-            <h3>El día después</h3>
-            <p>Tomate el día siguiente para descansar con tu bebé, revisar fotos juntos (aunque no las entienda) y relajarte. Ya cumpliste el año más intenso de tu vida como mamá o papá. ¡Felicitaciones!</p>
-            
-            <h3>Tip final de Plazas Blandas</h3>
-            <p>Considerá alquilar una plaza blanda para que sea el centro de entretenimiento. Los bebés estarán seguros, entretenidos y vos vas a poder disfrutar de tu propia fiesta sin preocupaciones. Nosotros nos encargamos del armado, traslado y desarmado. Vos solo disfrutá.</p>
-        `,
-        article3: `
-            <h2>Cómo preparar tu casa para una plaza blanda</h2>
-            <p>Alquilar una plaza blanda para tu casa es una excelente decisión para entretener a tu bebé de forma segura. Pero, ¿cómo preparás el espacio? Esta guía paso a paso te va a ayudar a tener todo listo antes de que llegue el equipo.</p>
-            
-            <h3>Paso 1: Elegir la ubicación (5 minutos)</h3>
-            <p>Buscá un espacio amplio en tu living o habitación principal. Lo ideal es un área de 3x3 metros para una plaza estándar (puede variar según la cantidad de módulos que alquiles).</p>
-            <p><strong>Criterios importantes:</strong></p>
-            <ul>
-                <li>Alejado de muebles con esquinas filosas</li>
-                <li>Lejos de ventanas bajas o puertas de vidrio</li>
-                <li>Buena iluminación natural</li>
-                <li>Alejado de la cocina o baño (para evitar interrupciones)</li>
-            </ul>
-            
-            <h3>Paso 2: Despejar el área (10 minutos)</h3>
-            <p>Retirá TODO lo que esté en el piso: alfombras, cables, juguetes sueltos, adornos bajos, plantas. Un piso limpio y despejado permite un armado más rápido y seguro.</p>
-            <p><strong>Qué mover:</strong> Mesa ratona o de centro (si está en el camino), sillas sueltas, macetas o plantas bajas, cestos de juguetes.</p>
-            <p><strong>Qué NO necesitás mover:</strong> Sillones o sofás (pueden quedar cerca), muebles pegados a la pared, bibliotecas o estanterías fijas, TV o mueble de TV.</p>
-            
-            <h3>Paso 3: Revisar el piso (2 minutos)</h3>
-            <p>Chequeá que el piso esté limpio (barrido o aspirado), seco (sin derrames), libre de objetos pequeños, y sin desniveles pronunciados.</p>
-            <p>Las plazas blandas funcionan perfectamente sobre cerámica, porcelanato, parquet o alfombras cortas. Si tenés alfombra de pelo largo, avisanos antes para preparar una base especial.</p>
-            
-            <h3>Paso 4: Pensar en los adultos (3 minutos)</h3>
-            <p>Recordá que los padres también necesitan espacio para supervisar y jugar. Dejá espacio para un sillón o sillas cerca para supervisar cómodamente, mesa auxiliar para vasos, snacks, celulares, y espacio para circular alrededor de la plaza.</p>
-            
-            <h3>Paso 5: Controlar la temperatura (1 minuto)</h3>
-            <p>La temperatura ideal para bebés es 20-22°C. Si es verano, asegurate de que haya ventilación (ventilador o aire acondicionado, nunca directo al bebé). Si es invierno, que esté cálido pero no sofocante.</p>
-            
-            <h3>Paso 6: Preparar entretenimiento adicional (opcional)</h3>
-            <p>Aunque la plaza blanda es súper entretenida por sí sola, podés complementar con música suave de fondo, algunos juguetes blandos extra, burbujas (¡les encantan!), y tu cámara lista para capturar momentos.</p>
-            
-            <h3>Medidas de seguridad adicionales</h3>
-            <p>Antes de que lleguen los bebés, hacé un último chequeo: enchufes cubiertos con protectores, cables de cortinas o persianas fuera de alcance, puertas cerradas (baño, cocina, habitaciones), mascotas en otra área de la casa.</p>
-            
-            <h3>¿Cuánto tiempo antes debo preparar?</h3>
-            <p>Con 20-30 minutos antes de que llegue el equipo de armado, es más que suficiente. El armado profesional toma entre 15-20 minutos.</p>
-            
-            <h3>Después del evento</h3>
-            <p>No te preocupes por la limpieza de la plaza, eso es trabajo nuestro. Nosotros nos encargamos del desarmado, carga y sanitización posterior. Vos solo disfrutá.</p>
-            
-            <h3>¿Dudas sobre el espacio?</h3>
-            <p>Si no estás segura de que tu espacio es adecuado, mandanos una foto por WhatsApp antes del evento. Te asesoramos sin cargo para que todo salga perfecto. Queremos que tu experiencia sea impecable de principio a fin.</p>
-        `
-    };
+<!-- ========== GALLERY ========== -->
+<section class="gallery" id="galeria">
+  <div class="wrap">
+    <div class="sh sa">
+      <div class="sh-tag" style="background:var(--coral-light);color:var(--coral)">📸 Galería</div>
+      <h2>Momentos reales 💕</h2>
+      <p>Así se ven nuestros setups en cumpleaños, casas y eventos</p>
+    </div>
+    <div class="gal-grid sa dl1">
+      <div class="ph tall"><span>📸</span><span>FOTO 1<br>vertical</span></div>
+      <div class="ph"><span>📸</span><span>FOTO 2</span></div>
+      <div class="ph"><span>📸</span><span>FOTO 3</span></div>
+      <div class="ph wide"><span>📸</span><span>FOTO 4 — panorámica</span></div>
+      <div class="ph"><span>📸</span><span>FOTO 5</span></div>
+    </div>
+    <div class="gal-cta sa dl2">
+      <a href="https://www.instagram.com/plazasblandasarg/" target="_blank" class="btn-ig">📷 Ver más en Instagram</a>
+    </div>
+  </div>
+</section>
 
-    // Funciones para abrir y cerrar el modal del blog
-    function openBlogModal(articleId) {
-        const modal = document.getElementById('blogModal');
-        const content = document.getElementById('modalArticleContent');
-        content.innerHTML = blogArticles[articleId];
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
+<!-- ========== STEPS ========== -->
+<section class="steps" id="como">
+  <div class="wrap">
+    <div class="sh sa">
+      <div class="sh-tag" style="background:var(--green-light);color:var(--green)">🎯 Cómo funciona</div>
+      <h2>Tres pasos y listo 🥳</h2>
+      <p>Vos elegís la fecha, nosotros hacemos el resto.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step sa">
+        <div class="ph" style="min-height:200px"><span>📸</span><span>FOTO — Chat WhatsApp</span></div>
+        <div class="step-num" style="background:var(--coral)">1</div>
+        <h3>Escribinos</h3>
+        <p>Contanos por WhatsApp tu fecha, lugar y cantidad de chicos.</p>
+      </div>
+      <div class="step sa dl1">
+        <div class="ph" style="min-height:200px"><span>📸</span><span>FOTO — Armando módulos</span></div>
+        <div class="step-num" style="background:var(--blue)">2</div>
+        <h3>Armamos todo</h3>
+        <p>Llegamos 1 hora antes con todo sanitizado y listo.</p>
+      </div>
+      <div class="step sa dl2">
+        <div class="ph" style="min-height:200px"><span>📸</span><span>FOTO — Nenes jugando</span></div>
+        <div class="step-num" style="background:var(--green)">3</div>
+        <h3>¡A disfrutar!</h3>
+        <p>4 horas de diversión. Después desarmamos y retiramos.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    function closeBlogModal() {
-        const modal = document.getElementById('blogModal');
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
+<!-- ========== WAVE INTO REVIEWS ========== -->
+<div class="wave"><svg viewBox="0 0 1440 64" preserveAspectRatio="none"><path fill="#FFF0D4" d="M0,40L160,45C320,50,640,60,960,56C1280,52,1440,36,1440,36L1440,64L0,64Z"/></svg></div>
 
-    // Cerrar modal al hacer click fuera del contenido
-    window.onclick = function(event) {
-        const modal = document.getElementById('blogModal');
-        if (event.target === modal) {
-            closeBlogModal();
-        }
-    }
-    </script>
+<!-- ========== REVIEWS ========== -->
+<section class="reviews" id="opiniones">
+  <div class="wrap">
+    <div class="sh sa">
+      <div class="sh-tag" style="background:var(--coral-light);color:var(--coral)">⭐ Opiniones</div>
+      <h2>Lo que dicen las familias 💕</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev sa">
+        <div class="rev-head">
+          <div class="rev-av" style="background:var(--coral)">M</div>
+          <div><div class="rev-nm">María</div><div class="rev-loc">📍 Belgrano, CABA</div></div>
+        </div>
+        <div class="rev-stars">⭐⭐⭐⭐⭐</div>
+        <p class="rev-txt">"Impecable el servicio. Mi hija de 8 meses no paró de jugar toda la tarde. Super limpio y en perfecto estado."</p>
+      </div>
+      <div class="rev sa dl1">
+        <div class="rev-head">
+          <div class="rev-av" style="background:var(--blue)">J</div>
+          <div><div class="rev-nm">Juan</div><div class="rev-loc">📍 San Isidro</div></div>
+        </div>
+        <div class="rev-stars">⭐⭐⭐⭐⭐</div>
+        <p class="rev-txt">"Lo alquilamos para el primer cumple de nuestro hijo. Llegaron puntuales, armaron todo rápido y fue un éxito total."</p>
+      </div>
+      <div class="rev sa dl2">
+        <div class="rev-head">
+          <div class="rev-av" style="background:var(--green)">L</div>
+          <div><div class="rev-nm">Laura</div><div class="rev-loc">📍 Vicente López</div></div>
+        </div>
+        <div class="rev-stars">⭐⭐⭐⭐⭐</div>
+        <p class="rev-txt">"Excelente atención desde el primer momento. Me ayudaron a elegir los módulos ideales. 100% recomendable."</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<!-- ========== WAVE OUT REVIEWS ========== -->
+<div class="wave" style="transform:scaleY(-1)"><svg viewBox="0 0 1440 64" preserveAspectRatio="none"><path fill="#FFF0D4" d="M0,40L160,45C320,50,640,60,960,56C1280,52,1440,36,1440,36L1440,64L0,64Z"/></svg></div>
+
+<!-- ========== FAQ ========== -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="sh sa">
+      <div class="sh-tag" style="background:var(--blue-light);color:var(--blue)">❓ Preguntas</div>
+      <h2>¿Tenés dudas? 🤔</h2>
+    </div>
+    <div class="faq-list">
+      <div class="fqi sa"><button onclick="tF(this)"><span>¿Para qué edades son las plazas?</span><span class="ico">+</span></button><div class="ans"><p>Diseñadas para bebés y niños de 1 a 4 años. Módulos seguros y acolchados para la primera infancia.</p></div></div>
+      <div class="fqi sa dl1"><button onclick="tF(this)"><span>¿Qué zonas cubren?</span><span class="ico">+</span></button><div class="ans"><p>Toda CABA y Zona Norte (Vicente López, San Isidro, Tigre). Consultanos por otras zonas.</p></div></div>
+      <div class="fqi sa dl2"><button onclick="tF(this)"><span>¿Cuánto dura el alquiler?</span><span class="ico">+</span></button><div class="ans"><p>Hasta 4 horas de evento incluidas. El armado se realiza 1 hora antes.</p></div></div>
+      <div class="fqi sa dl3"><button onclick="tF(this)"><span>¿Qué incluye el servicio?</span><span class="ico">+</span></button><div class="ans"><p>Traslado, armado, desarmado y sanitización de todos los módulos. Nos encargamos de todo.</p></div></div>
+      <div class="fqi sa"><button onclick="tF(this)"><span>¿Los materiales son seguros?</span><span class="ico">+</span></button><div class="ans"><p>Goma espuma de alta densidad, libres de tóxicos, funda lavable y bordes acolchados.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-box sa">
+      <div class="ph" style="min-height:360px;border-radius:0;border:none">
+        <span style="font-size:44px">📸</span>
+        <span>FOTO — Nenes felices en la plaza blanda</span>
+      </div>
+      <div class="cta-txt">
+        <h2>¿Listo para la diversión? 🎉</h2>
+        <p>Escribinos por WhatsApp y te armamos la propuesta perfecta. ¡Respondemos al toque!</p>
+        <div class="cta-btns">
+          <a href="https://wa.me/5491169648137?text=Hola!%20Quiero%20info%20de%20Plazas%20Blandas" target="_blank" class="btn-wa">💬 WhatsApp</a>
+          <a href="https://www.instagram.com/plazasblandasarg/" target="_blank" class="btn-wa2">📷 Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="foot">
+  <div class="foot-in">
+    <div>
+      <div class="foot-brand"><div class="fi">🏠</div><span>Plazas Blandas</span></div>
+      <p class="foot-cp">© 2025 Plazas Blandas Arg. Todos los derechos reservados.</p>
+    </div>
+    <div class="foot-links">
+      <a href="https://www.instagram.com/plazasblandasarg/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61583755025495" target="_blank">Facebook</a>
+      <a href="https://wa.me/5491169648137" target="_blank">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== FLOAT WA ========== -->
+<a href="https://wa.me/5491169648137?text=Hola!%20Quiero%20info%20de%20Plazas%20Blandas" target="_blank" class="float-wa">💬</a>
+
+<script>
+// Scroll navbar
+window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 50));
+
+// Mobile menu
+function openM() { document.getElementById('mDr').classList.add('on'); document.getElementById('mOv').classList.add('on'); document.body.style.overflow = 'hidden'; }
+function closeM() { document.getElementById('mDr').classList.remove('on'); document.getElementById('mOv').classList.remove('on'); document.body.style.overflow = ''; }
+
+// FAQ
+function tF(b) {
+  const item = b.parentElement;
+  const wasOpen = item.classList.contains('on');
+  document.querySelectorAll('.fqi').forEach(e => e.classList.remove('on'));
+  if (!wasOpen) item.classList.add('on');
+}
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.sa').forEach(el => obs.observe(el));
+
+// Marquee duplicate
+const mq = document.getElementById('mqt');
+mq.innerHTML += mq.innerHTML;
+</script>
 </body>
 </html>
