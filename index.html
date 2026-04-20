@@ -117,17 +117,18 @@ body { background: #FFF8F0; font-family: 'Nunito', sans-serif; color: #2B2B3D; o
 
 /* ===== GALLERY ===== */
 .gallery { background: var(--cream); padding: 80px 24px; }
-.gal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 40px; }
-.gal-grid .ph { min-height: 220px; border-radius: 20px; }
-.gal-grid .ph.tall { grid-row: span 2; min-height: 454px; }
-.gal-grid .ph.wide { grid-column: span 2; }
+.gal-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 220px; gap: 14px; margin-bottom: 40px; }
+.gal-grid .gal-item { border-radius: 20px; overflow: hidden; transition: transform .35s; }
+.gal-grid img.gal-item { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gal-grid .tall { grid-row: span 2; }
+.gal-grid .wide { grid-column: span 2; }
 .gal-cta { text-align: center; }
 .btn-ig { background: linear-gradient(135deg, #833AB4, #E1306C, #FCAF45); color: #fff; padding: 16px 38px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 5px 20px rgba(225,48,108,.25); transition: all .25s; }
 .btn-ig:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(225,48,108,.35); }
 @media (max-width: 700px) {
-  .gal-grid { grid-template-columns: 1fr 1fr; }
-  .gal-grid .ph.tall { grid-row: span 1; min-height: 200px; }
-  .gal-grid .ph.wide { grid-column: span 2; }
+  .gal-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
+  .gal-grid .tall { grid-row: span 1; }
+  .gal-grid .wide { grid-column: span 2; }
 }
 
 /* ===== STEPS ===== */
@@ -248,10 +249,7 @@ body { background: #FFF8F0; font-family: 'Nunito', sans-serif; color: #2B2B3D; o
 
       </div>
       <div class="hero-img sa dl1">
-        <div class="ph" style="min-height:420px;border-radius:28px">
-          <span>📸</span>
-          <span>FOTO HERO — Nenes jugando en la plaza blanda</span>
-        </div>
+        <img src="img-hero.jpeg" alt="Bebé jugando en plaza blanda" style="width:100%;height:420px;object-fit:cover;border-radius:28px;display:block">
         <div class="hero-img-label">🎊 Módulos + Pelotero — Todo incluido</div>
       </div>
     </div>
@@ -278,18 +276,9 @@ body { background: #FFF8F0; font-family: 'Nunito', sans-serif; color: #2B2B3D; o
   <div class="wrap">
     <div class="about-grid">
       <div class="about-photos sa">
-        <div class="ph big" style="border-color:rgba(255,255,255,.15)">
-          <span>📸</span>
-          <span style="color:rgba(255,255,255,.5)">FOTO — Setup completo armado</span>
-        </div>
-        <div class="ph" style="min-height:170px;border-color:rgba(255,255,255,.15)">
-          <span>📸</span>
-          <span style="color:rgba(255,255,255,.5)">FOTO — Nene jugando</span>
-        </div>
-        <div class="ph" style="min-height:170px;border-color:rgba(255,255,255,.15)">
-          <span>📸</span>
-          <span style="color:rgba(255,255,255,.5)">FOTO — Pelotero</span>
-        </div>
+        <img src="img-setup.jpeg" alt="Setup completo de plaza blanda" class="big" style="width:100%;height:220px;object-fit:cover;border-radius:20px;grid-column:span 2;display:block">
+        <img src="img-pelotero-bebe.jpeg" alt="Bebé en pelotero" style="width:100%;height:170px;object-fit:cover;border-radius:20px;display:block">
+        <img src="img-pelotero-cerca.jpeg" alt="Pelotero de cerca" style="width:100%;height:170px;object-fit:cover;border-radius:20px;display:block">
       </div>
       <div class="about-info sa dl1">
         <h2>Un espacio pensado para que exploren felices 💛</h2>
@@ -317,11 +306,11 @@ body { background: #FFF8F0; font-family: 'Nunito', sans-serif; color: #2B2B3D; o
       <p>Así se ven nuestros setups en cumpleaños, casas y eventos</p>
     </div>
     <div class="gal-grid sa dl1">
-      <div class="ph tall"><span>📸</span><span>FOTO 1<br>vertical</span></div>
-      <div class="ph"><span>📸</span><span>FOTO 2</span></div>
-      <div class="ph"><span>📸</span><span>FOTO 3</span></div>
-      <div class="ph wide"><span>📸</span><span>FOTO 4 — panorámica</span></div>
-      <div class="ph"><span>📸</span><span>FOTO 5</span></div>
+      <img src="img-tunel.png" alt="Bebé en túnel" class="gal-item tall" style="object-fit:cover">
+      <img src="img-rampa.png" alt="Bebé en rampa" class="gal-item" style="object-fit:cover">
+      <img src="img-escalera.png" alt="Bebé en escalera" class="gal-item" style="object-fit:cover">
+      <img src="img-setup-pelotero.jpeg" alt="Setup completo en parque" class="gal-item wide" style="object-fit:cover">
+      <img src="img-cubo.png" alt="Bebé trepando cubo" class="gal-item" style="object-fit:cover">
     </div>
     <div class="gal-cta sa dl2">
       <a href="https://www.instagram.com/plazasblandasarg/" target="_blank" class="btn-ig">📷 Ver más en Instagram</a>
@@ -339,19 +328,19 @@ body { background: #FFF8F0; font-family: 'Nunito', sans-serif; color: #2B2B3D; o
     </div>
     <div class="steps-grid">
       <div class="step sa">
-        <div class="ph" style="min-height:200px"><span>📸</span><span>FOTO — Chat WhatsApp</span></div>
+        <img src="img-setup-parque.jpeg" alt="Setup plaza blanda" style="width:100%;height:200px;object-fit:cover;border-radius:20px;display:block">
         <div class="step-num" style="background:var(--coral)">1</div>
         <h3>Escribinos</h3>
         <p>Contanos por WhatsApp tu fecha y lugar.</p>
       </div>
       <div class="step sa dl1">
-        <div class="ph" style="min-height:200px"><span>📸</span><span>FOTO — Armando módulos</span></div>
+        <img src="img-bebe-trepando.jpeg" alt="Armando módulos" style="width:100%;height:200px;object-fit:cover;border-radius:20px;display:block">
         <div class="step-num" style="background:var(--blue)">2</div>
         <h3>Armamos todo</h3>
         <p>Llegamos media hora antes con todo sanitizado y listo.</p>
       </div>
       <div class="step sa dl2">
-        <div class="ph" style="min-height:200px"><span>📸</span><span>FOTO — Nenes jugando</span></div>
+        <img src="img-cubo.png" alt="Bebé disfrutando" style="width:100%;height:200px;object-fit:cover;border-radius:20px;display:block">
         <div class="step-num" style="background:var(--green)">3</div>
         <h3>¡A disfrutar!</h3>
         <p>5 horas de diversión. Después desarmamos y retiramos.</p>
@@ -423,10 +412,7 @@ body { background: #FFF8F0; font-family: 'Nunito', sans-serif; color: #2B2B3D; o
 <section class="cta">
   <div class="wrap">
     <div class="cta-box sa">
-      <div class="ph" style="min-height:360px;border-radius:0;border:none">
-        <span style="font-size:44px">📸</span>
-        <span>FOTO — Nenes felices en la plaza blanda</span>
-      </div>
+      <img src="img-bebe-trepando.jpeg" alt="Bebé disfrutando plaza blanda" style="width:100%;height:100%;min-height:360px;object-fit:cover;display:block">
       <div class="cta-txt">
         <h2>¿Listo para la diversión? 🎉</h2>
         <p>Escribinos por WhatsApp y te armamos la propuesta perfecta. ¡Respondemos al toque!</p>
